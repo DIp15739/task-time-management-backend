@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "clean": "rimraf dist/*",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "build": "npm-run-all clean compile:sass lint tsc copy-assets",
+    "build": "npm-run-all clean compile:sass lint tsc",
     "dev": "npx nodemon src/index.ts --exec ts-node",
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile:sass": "sass --update src/views/assets/scss:src/views/assets/css"
