@@ -1,0 +1,128 @@
+<%- include('./header') %>
+<%- include('./sidebar') %>
+
+ <!-- Content Wrapper. Contains page content -->
+ <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Add Trinket</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Admin</a></li>
+              <li class="breadcrumb-item active">Add Trinket</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+                <!-- general form elements -->
+            <div class="card card-primary">
+               
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form id="addFrm" method="post" enctype="multipart/form-data" action="/admin/storeTrinket">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Name</label>
+                      <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
+                    </div>
+                   
+                    <div class="form-group">
+                      <label for="image">File input</label>
+                      <div class="input-group">
+                        <div class="custom-file">
+                          <input type="file" name="img" accept="image/*" class="custom-file-input" id="img">
+                          <label class="custom-file-label" for="image">Choose file</label>
+                        </div>
+                       
+                      </div>
+                      <label id="img-error" class="error" for="img"></label>
+                    </div>
+                   
+                  <!-- /.card-body -->
+  
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </div>
+                </form>
+              </div>
+              <!-- /.card -->
+  
+                
+            </div>
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+</div>
+<script src="../plugins/jquery/jquery.min.js"></script>
+<script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="../plugins/jquery-validation/additional-methods.min.js"></script>
+<!-- Page specific script -->
+<script>
+    $(function () {
+        $('#addFrm').validate({
+            rules: {
+                name: {
+                    required: true,
+                },
+                img: {
+                    required: true,
+                    accept:"image/jpg,image/jpeg,image/png"
+                }
+            },
+                messages: {
+                    name: {
+                    required: "Please enter a Name",
+                },
+                img: {
+                    required: "Please Select Trinket Image",
+                    accept: "Only image type png allowed"
+                   
+                }
+            },
+        });
+        $("#img").change(function() {
+            var fileUpload = $("#img")[0];
+ var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.jpeg)$");
+ if (regex.test(fileUpload.value.toLowerCase())) {
+     if (typeof (fileUpload.files) != "undefined") {
+         var reader = new FileReader();
+         reader.readAsDataURL(fileUpload.files[0]);
+         reader.onload = function (e) {
+             var image = new Image();
+             image.src = e.target.result;
+             image.onload = function () {
+                 var height = this.height;
+                 var width = this.width;
+                 if (height >= 201 || width >= 201) {
+                     alert("Height and Width must not exceed 200px.");
+                     return false;
+                 }
+                
+                 return true;
+             };
+         }
+     } else {
+         alert("This browser does not support HTML5.");
+         return false;
+     }
+ } else {
+     alert("Please select a valid Image file.");
+     return false;
+ }
+
+    });
+    });
+</script>
+<%- include('./footer') %>
